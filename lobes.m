@@ -12,24 +12,33 @@ gam = D*u(1);
 poids = ones(N, 1); % pings
 %poids(5) = 0; % ping perdu
 
+%% antenne parfaite
 calculLobe(poids, 1);
 title("Antenne parfaite")
 
+%% erreur constante
 calculLobe(exp(-2 * 1i * D/L * t * gam)', 1);
 title("\gamma constant, = D*u_0")
 
 gam = 2;
 calculLobe(exp(-2 * 1i * D/L * t * gam)', 1);
-title("\gamma constant= ", num2str(gam))
+title("\gamma constant = " + num2str(gam))
 
-gam = randn(N, 1);
-for i = 1:N
-    [lobeFacteur(:,i), lobeSAS(:,i)] = calculLobe(exp(-2 * 1i * D/L * t * gam(i))', 0);
+%% erreur randn
+n = 1;
+
+for i = 1:n
+    gam = randn(1, N);
+    [lobeFacteur(:,i), lobeSAS(:,i)] = calculLobe(exp(-2 * 1i * D/L * t .* gam)', 0);
     %title("\gamma randn = ", num2str(gam(i)))
 end
 
 moyLobeFacteur = lobeFacteur/N;
+%moyLobeFacteur = mean(lobeFacteur, 2);
 moyLobeSAS = lobeSAS/N;
+%moyLobeSAS = mean(lobeSAS, 2);
+% moyLobeFacteur = lobeFacteur;
+% moyLobeSAS = lobeSAS;
 
 figure()
 plot(u, 20*log(abs(sinc(u))))
@@ -39,3 +48,11 @@ plot(u, 20*log(abs(moyLobeSAS)/max(moyLobeSAS)))
 legend("Transducteur", "Facteur d'antenne empirique", "SAS empirique")
 grid()
 title("Moyenne empirique des randn")
+%% erreur sin
+f = 0.5;
+a = 5;
+gam = a * sin(2*pi*f*t/N);
+calculLobe(exp(1i * gam)', 1);
+title("Erreur sinusoïdale, f = " + num2str(f) + " et a = " + num2str(a))
+%% affichage
+
