@@ -1,0 +1,9 @@
+function err = PSLR(SAS)
+    [Ip, Ip_index] = max(SAS);
+    Is = max(SAS(Ip_index + 20:end));
+    
+
+        % Calcul du PSLR
+    err = Is - Ip;
+
+end

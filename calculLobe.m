@@ -15,14 +15,16 @@ function [lobeFacteur, lobeSAS] = calculLobe(poids, draw)
     lobeSAS = lobeFacteur .* lobeTransducteur;
     
     maxFacteur = max(abs(lobeFacteur));
-    
+    err = PSLR(abs(lobeSAS)/maxFacteur)
     if draw == 1
         figure()
-        plot(u, 20*log(abs(lobeTransducteur)))
+        plot(u, 20*log10(abs(lobeTransducteur)))
         hold on
-        plot(u, 20*log(abs(lobeFacteur)/maxFacteur))
-        plot(u, 20*log(abs(lobeSAS)/maxFacteur))
+        plot(u, 20*log10(abs(lobeFacteur)/maxFacteur))
+        plot(u, 20*log10(abs(lobeSAS)/maxFacteur))
         legend("Transducteur", "Facteur d'antenne", "SAS")
+        ylabel("dB")
         grid()
+        ylim([-50, 0])
     end
 end
