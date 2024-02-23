@@ -1,4 +1,4 @@
-function [lobeFacteur, lobeSAS] = calculLobe(poids, draw)
+function [lobeFacteur, lobeSAS] = calculLobe(poids, gam, draw)
     N = 41; % nombre de pings
     D = 0.5; % distance ping
     t = (0:N-1);
@@ -18,6 +18,7 @@ function [lobeFacteur, lobeSAS] = calculLobe(poids, draw)
     err = PSLR(abs(lobeSAS)/maxFacteur)
     if draw == 1
         figure()
+        subplot(1,2,1)
         plot(u, 20*log10(abs(lobeTransducteur)))
         hold on
         plot(u, 20*log10(abs(lobeFacteur)/maxFacteur))
@@ -26,5 +27,9 @@ function [lobeFacteur, lobeSAS] = calculLobe(poids, draw)
         ylabel("dB")
         grid()
         ylim([-50, 0])
+        subplot(1,2,2)
+        plot(gam)
+        xlabel("Nombre de pings")
+        grid()
     end
 end
